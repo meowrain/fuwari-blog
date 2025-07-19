@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [HashMap,Java]
-category: 'Java'
+category: 'Java > 集合框架'
 draft: false 
 lang: ''
 ---
@@ -60,17 +60,21 @@ HashMap的默认初始容量为16，负载因子为0.75，也就是说，当存�
 ![](https://blog.meowrain.cn/api/i/2025/06/13/nnlf4v-0.webp)
 
 ### 为什么采用数组？
+
 因为数组的随机访问速度非常快，HashMap通过哈希函数将键映射到数组索引位置，从而实现快速查找。
 
 数组的每一个元素称为一个桶（bucket），对于一个给定的键值对key,value，HashMap会计算出一个哈希值（计算的是key的hash），然后通过`(n-1) & hash`来确定该键值对在数组中的位置。
 
 ### 如何定位key value该存储在桶数组的哪个位置上？（获取index）
+
 HashMap通过`(n - 1) & hash`来计算索引位置，其中n是数组的长度，hash是键的哈希值。
 
 ### 如何计算hash值？
+
 HashMap使用键的`hashCode()`方法计算哈希值，然后对哈希值进行扰动处理，最后通过`(n-1) & hash`来确定元素在数组中的存储位置。
 
 ### 为什么要扰动处理？
+
 扰动处理是为了减少哈希冲突，防止哈希值分布不均。HashMap会对哈希值进行扰动处理，以确保不同的键能够更均匀地分布在数组中，从而减少冲突。
 
 在Java 8中，HashMap使用了一个扰动函数来优化hash值的分布：
@@ -83,6 +87,7 @@ static final int hash(Object key) {
 ```
 
 这个函数的作用是：
+
 1. 首先获取key的hashCode()值
 2. 将hashCode的高16位与低16位进行异或运算
 
@@ -95,17 +100,18 @@ static final int hash(Object key) {
 n是数组的长度，hash是键的哈希值。
 
 ### 为什么要让HashMap的容量是2的幂次方？
+
 因为当容量是2的幂次方时，`(n-1) & hash`可以快速计算出索引位置，而不需要进行取模运算。
 
 ![](https://blog.meowrain.cn/api/i/2025/06/13/nqocqh-0.webp)
 
 ### 为什么会用到链表？
+
 我们在HashMap的使用过程中，可能会遇到哈希冲突的情况，也就是不同的键经过哈希函数计算后得到了相同的索引位置，使用链表我们可以把这些冲突的键值对存储在同一个桶中，用链表连接在一起，jdk8开始，链表节点不再使用头插法，而是使用尾插法，这样可以减少链表的长度，提升查找效率。
 
 头插法还可能造成链表形成环形，导致死循环。
 
 ![](https://blog.meowrain.cn/api/i/2025/06/13/nva4ft-0.webp)
-
 
 ## Node
 
@@ -149,9 +155,8 @@ n是数组的长度，hash是键的哈希值。
 
 ```
 
-
-
 # HashMap的Put方法
+
 HashMap的put方法是用来添加键值对到HashMap中的核心方法。它的实现逻辑如下：
 
 ```java
@@ -237,7 +242,6 @@ HashMap的put方法是用来添加键值对到HashMap中的核心方法。它的
 
 ![](https://blog.meowrain.cn/api/i/2025/06/13/nzkmzk-0.webp)
 
-
 # HashMap的Get方法
 
 ```java
@@ -281,17 +285,16 @@ HashMap的put方法是用来添加键值对到HashMap中的核心方法。它的
 
 ![](https://blog.meowrain.cn/api/i/2025/06/13/o2aa3y-0.webp)
 
-
-
 # HashMap的扩容
+
 HashMap的扩容是指当存储的元素数量超过负载因子所允许的最大数量时，HashMap会自动增加其容量。
 扩容的过程包括以下几个步骤：
+
 1. **计算新的容量**：新的容量通常是当前容量的两倍。
 2. **创建新的数组**：创建一个新的数组来存储扩容后的元素。
 3. **重新计算索引位置**：对于每个元素，重新计算其在新数组中的索引位置，并将其移动到新数组中。
 
 源码中是resize()函数
-
 
 ```java
 /**
@@ -406,8 +409,8 @@ final Node<K,V>[] resize() { // 📏 定义扩容方法
 }
 ```
 
-
 ## 扩容的时候高位和低位链表详解
+
 ```java
 else {
                     Node<K,V> loHead = null, loTail = null; // 🔻 低位链表的头和尾节点
@@ -454,6 +457,7 @@ else {
 ### 核心原理
 
 当HashMap从容量n扩容到2n时，每个元素的新位置只有两种可能：
+
 - **保持原位置**（低位链表）
 - **移动到原位置+n**（高位链表）
 
@@ -463,6 +467,7 @@ else {
 - 高位链表（hi list）：满足 `(e.hash & oldCap) != 0` 的节点，扩容后放在新位置 `j + oldCap`。
 
 #### 举例子
+
 假设oldCap = 16,newCap = 32
 
 oldCap=16 // 10000
@@ -492,8 +497,8 @@ hash1 & oldCap ==> 5 & 16
 所以这个kv会放在原位置5
 ```
 
-
 再举个例子
+
 ```
 hash2 = 20; // 10100
 
@@ -525,14 +530,14 @@ hash2 & oldCap ==> 20 & 16
 ---
 
 ### 为什么判断的是与oldCap相与得到的值是1还是0来决定搬迁位置？
-当HashMap扩容时，容量从 `oldCap` 扩展到 `newCap`，比如从 16 扩展到 32。
 
+当HashMap扩容时，容量从 `oldCap` 扩展到 `newCap`，比如从 16 扩展到 32。
 
 - 原来 HashMap 的下标计算是：`index = hash & (oldCap-1)`，比如 `00001111`（低4位）。
 - 扩容后，计算下标变为：`index = hash & (newCap-1)`，比如 `00011111`（低5位），也就是多了一位。
 - 和 `oldCap`（如 `00010000`）相与，就相当于“掐头去尾”地只关注扩容新增的那一位：
-    - 如果 `(hash & oldCap) == 0`，说明这位是0，**扩容后的位置等于原index**
-    - 如果 `(hash & oldCap) != 0`，说明这位是1，**扩容后的位置等于原index + oldCap**
+  - 如果 `(hash & oldCap) == 0`，说明这位是0，**扩容后的位置等于原index**
+  - 如果 `(hash & oldCap) != 0`，说明这位是1，**扩容后的位置等于原index + oldCap**
 - 这种判断，让你高效知道节点该不该搬迁以及搬去哪里，无需重新完全计算index。
 
 ---
@@ -540,6 +545,7 @@ hash2 & oldCap ==> 20 & 16
 #### 举例验证（巩固印象）
 
 假如：
+
 - oldCap = 16 ⇒ 00010000
 - oldCap-1 = 15 ⇒ 00001111
 - newCap = 32 ⇒ 00100000
@@ -547,27 +553,32 @@ hash2 & oldCap ==> 20 & 16
 - hash = 21 ⇒ 10101
 
 **扩容前下标：**
+
 ```java
 index = 10101 & 01111 = 00101 = 5
 ```
 
 **扩容后下标：**
+
 ```java
 index = 10101 & 11111 = 10101 = 21
 ```
 
 **oldCap这一位的判断：**
+
 ```java
 10101 & 10000 = 10000 ≠ 0
 ```
+
 说明这位是1，扩容后下标变成原index+16=21。
 
 ---
 
-
 ### 扩容的条件是什么？
+
 当 HashMap 中存储的元素数量超过了「阈值」（threshold）时，就会进行扩容。
 这个「阈值」的计算公式是：
+
 ```
 threshold = capacity * loadFactor
 ```
@@ -580,9 +591,8 @@ HashMap扩容的主要目的是：
 减少哈希冲突，提高查找、插入效率。
 让更多桶可用，降低碰撞链表队列的长度。
 
-
-
 # jdk1.7和jdk1.8中hashmap的区别
+
 ![](https://blog.meowrain.cn/api/i/2025/06/13/pf960q-0.webp)
 
 ![](https://blog.meowrain.cn/api/i/2025/06/13/pfb9eb-0.webp)
@@ -593,9 +603,8 @@ HashMap扩容的主要目的是：
 
 ![](https://blog.meowrain.cn/api/i/2025/06/13/pfyw7c-0.webp)
 
-
 # 链表什么时候转红黑树？
+
 桶数组中某个桶的链表长度>=8 而且桶数组长度> 64的时候，hashmap会转换为红黑树
 
 ![](https://blog.meowrain.cn/api/i/2025/06/25/hi2z5e-0.webp)
-

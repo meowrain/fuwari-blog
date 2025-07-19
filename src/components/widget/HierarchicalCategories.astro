@@ -1,0 +1,79 @@
+---
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import { getCategoryList } from "../../utils/content-utils";
+import type { Category } from "../../utils/content-utils";
+import ButtonLink from "../control/ButtonLink.astro";
+import WidgetLayout from "./WidgetLayout.astro";
+
+const categories = await getCategoryList();
+
+const COLLAPSED_HEIGHT = "12rem";
+const COLLAPSE_THRESHOLD = 5;
+
+const isCollapsed = categories.length >= COLLAPSE_THRESHOLD;
+
+interface Props {
+	class?: string;
+	style?: string;
+}
+const className = Astro.props.class;
+const style = Astro.props.style;
+
+// 扁平化分类树以便显示
+function flattenCategories(categories: Category[], level: number = 0): Array<Category & { displayLevel: number }> {
+	const result: Array<Category & { displayLevel: number }> = [];
+	
+	for (const category of categories) {
+		result.push({ ...category, displayLevel: level });
+		if (category.children.length > 0) {
+			result.push(...flattenCategories(category.children, level + 1));
+		}
+	}
+	
+	return result;
+}
+
+const flatCategories = flattenCategories(categories);
+---
+
+<WidgetLayout 
+	name={i18n(I18nKey.categories)} 
+	id="hierarchical-categories" 
+	isCollapsed={isCollapsed} 
+	collapsedHeight={COLLAPSED_HEIGHT}
+	class={className} 
+	style={style}
+>
+	{flatCategories.map((category) => (
+		<div class={`category-item level-${category.displayLevel}`} style={`margin-left: ${category.displayLevel * 1}rem`}>
+			<ButtonLink
+				url={category.url}
+				badge={String(category.count)}
+				label={`View all posts in the ${category.fullName} category`}
+			>
+				{category.displayLevel > 0 ? `└ ${category.name}` : category.name}
+			</ButtonLink>
+		</div>
+	))}
+</WidgetLayout>
+
+<style>
+	.category-item {
+		margin-bottom: 0.25rem;
+	}
+	
+	.level-0 {
+		font-weight: 600;
+	}
+	
+	.level-1 {
+		font-size: 0.9rem;
+		opacity: 0.9;
+	}
+	
+	.level-2 {
+		font-size: 0.85rem;
+		opacity: 0.8;
+	}
+</style>

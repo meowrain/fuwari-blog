@@ -31,6 +31,35 @@ export function getCategoryUrl(category: string | null): string {
 	return url(`/archive/?category=${encodeURIComponent(category.trim())}`);
 }
 
+// 解析分类层级结构
+export function parseCategoryHierarchy(category: string): string[] {
+	if (!category || category.trim() === "") return [];
+	// 支持使用 "/" 或 " > " 作为分隔符
+	const separators = [' > ', '/'];
+	for (const sep of separators) {
+		if (category.includes(sep)) {
+			return category.split(sep).map(c => c.trim()).filter(c => c.length > 0);
+		}
+	}
+	return [category.trim()];
+}
+
+// 获取父分类
+export function getParentCategory(category: string): string | null {
+	const hierarchy = parseCategoryHierarchy(category);
+	return hierarchy.length > 1 ? hierarchy.slice(0, -1).join(' > ') : null;
+}
+
+// 获取所有祖先分类（包括自己）
+export function getCategoryAncestors(category: string): string[] {
+	const hierarchy = parseCategoryHierarchy(category);
+	const ancestors: string[] = [];
+	for (let i = 1; i <= hierarchy.length; i++) {
+		ancestors.push(hierarchy.slice(0, i).join(' > '));
+	}
+	return ancestors;
+}
+
 export function getDir(path: string): string {
 	const lastSlashIndex = path.lastIndexOf("/");
 	if (lastSlashIndex < 0) {

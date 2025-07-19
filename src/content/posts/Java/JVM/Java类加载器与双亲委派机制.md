@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [Java,类加载器,ClassLoader,双亲委派机制]
-category: 'Java'
+category: 'Java > JVM'
 draft: false 
 lang: ''
 ---
@@ -38,4 +38,3 @@ Java类加载器从高到低分为以下层级（以JDK 8为例）：
 1. **保障核心类库的安全**防止用户自定义的类（如`java.lang.Object`）覆盖JVM核心类。例如，如果用户编写了一个恶意`String`类，双亲委派机制会优先加载核心库中的`String`，从而避免安全隐患。
 2. **避免重复加载**同一个类只会被一个类加载器加载一次，防止内存中出现多个相同类的副本，确保类的唯一性。
 3. **实现代码隔离**不同类加载器加载的类属于不同的命名空间，天然支持模块化（如Tomcat为每个Web应用分配独立的类加载器）。
-

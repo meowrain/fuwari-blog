@@ -4,6 +4,7 @@ import { onMount } from "svelte";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { getPostUrlBySlug } from "../utils/url-utils";
+import { getCategoryAncestors } from "../utils/url-utils";
 
 export let tags: string[];
 export let categories: string[];
@@ -53,9 +54,24 @@ onMount(async () => {
 	}
 
 	if (categories.length > 0) {
-		filteredPosts = filteredPosts.filter(
-			(post) => post.data.category && categories.includes(post.data.category),
-		);
+		filteredPosts = filteredPosts.filter((post) => {
+			if (!post.data.category) return false;
+			
+			// 简单的字符串匹配，支持层级匹配
+			return categories.some(filterCategory => {
+				// 直接匹配
+				if (post.data.category === filterCategory) {
+					return true;
+				}
+				
+				// 如果文章分类以 "filterCategory > " 开头，说明是子分类
+				if (post.data.category.startsWith(filterCategory + ' > ')) {
+					return true;
+				}
+				
+				return false;
+			});
+		});
 	}
 
 	if (uncategorized) {

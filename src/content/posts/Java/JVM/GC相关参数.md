@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [GC,JAVA,JVM]
-category: 'Java'
+category: 'Java > JVM'
 draft: false 
 lang: ''
 ---
@@ -115,4 +115,3 @@ lang: ''
 - **注意:**
   - 此参数在现代的 GC（如 G1）中已不推荐使用或被废弃，因为它们有更智能的回收策略。
   - 在某些情况下，它可能会引入一次额外的、不必要的停顿（Minor GC 的停顿）。因此，除非有明确的测试数据支持，否则一般不建议开启。
-

@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [Java,JVM,垃圾收集器]
-category: 'Java'
+category: 'Java > JVM'
 draft: false 
 lang: ''
 ---

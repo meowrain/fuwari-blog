@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [分代回收,JVM]
-category: 'Java'
+category: 'Java > JVM'
 draft: false 
 lang: ''
 ---
@@ -56,7 +56,7 @@ JVM 内置的通用垃圾回收原则。堆内存划分为 Eden、Survivor(年�
 
 ![image.png](https://blog.meowrain.cn/api/i/2025/07/18/10mvw5e-1.webp)
 
-核心规则： 
+核心规则：
 
 1. 对象优先在Eden区分配
 2. 大对象直接进入老年代
@@ -66,7 +66,7 @@ JVM 内置的通用垃圾回收原则。堆内存划分为 Eden、Survivor(年�
 在 JVM 中，**年龄阈值（Tenuring Threshold）** 是一个关键的参数，它决定了新生代（Young Generation）中的对象需要经历多少次垃圾回收（Minor GC）仍然存活，才会被晋升（Promotion）到老年代（Old Generation）。
 
 年轻代分为Eden区和Survivor区，Survivor区又分为S0,S1，S0,S1其中一个作为使用区（from)，一个作为空闲区(to)（不固定，可能S0是空闲区，也可能是使用区）
-在Minor GC开始以后（会回收Eden区和使用区中的对象），逃过第一轮GC的，在Eden区和使用区中的对象，会被丢在空闲区,接下来将使用区和空闲区互换（空闲区变使用区，使用区变空闲区），等待下一次Eden区满进行Minor GC，以此不断循环（每复制一次，年龄就会 + 1） 
+在Minor GC开始以后（会回收Eden区和使用区中的对象），逃过第一轮GC的，在Eden区和使用区中的对象，会被丢在空闲区,接下来将使用区和空闲区互换（空闲区变使用区，使用区变空闲区），等待下一次Eden区满进行Minor GC，以此不断循环（每复制一次，年龄就会 + 1）
 
 ![image.png](https://blog.meowrain.cn/api/i/2025/07/18/10mw6vd-1.webp)
 
@@ -77,4 +77,3 @@ JVM 内置的通用垃圾回收原则。堆内存划分为 Eden、Survivor(年�
 ![image.png](https://blog.meowrain.cn/api/i/2025/07/18/10mwjcx-1.webp)
 
 ![image.png](https://blog.meowrain.cn/api/i/2025/07/18/10mwpa5-1.webp)
-

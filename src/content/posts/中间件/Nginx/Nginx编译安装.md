@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [Nginx编译安装]
-category: 'Nginx'
+category: '中间件 > Nginx'
 draft: false 
 lang: 'zh-cn'
 ---
@@ -39,4 +39,3 @@ make
 make install
 
 ```
-

@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [JVM,内存模型]
-category: 'Java'
+category: 'Java > JVM'
 draft: false 
 lang: ''
 ---
@@ -29,4 +29,3 @@ JVM虚拟机栈：每个线程都有自己独立的Java虚拟机栈，生命周�
 本地方法栈： 与Java虚拟机栈差不读多，执行本地方法，其中堆和方法区是线程共有的。
 
 Java堆： 存放和管理对象实例，被所有线程共享。
-

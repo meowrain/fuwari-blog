@@ -4,7 +4,7 @@ published: 2025-07-18
 description: ''
 image: ''
 tags: [JVM,垃圾回收，分代回收]
-category: 'Java'
+category: 'Java > JVM'
 draft: false 
 lang: ''
 ---
@@ -100,6 +100,7 @@ lang: ''
 ![image.png](https://blog.meowrain.cn/api/i/2025/07/18/10nojzj-1.webp)
 
 ## **垃圾回收算法之标记-整理算法**
+
 标记-整理算法（Mark-Compact Algorithm） 是一种常见的垃圾回收（GC）算法，主要用于解决 标记-清除算法（Mark-Sweep） 产生的内存碎片问题。它通常被用于 Java 的老年代（Old Generation）垃圾回收中。
 
 标记-整理算法主要分为两大阶段：
@@ -145,4 +146,3 @@ lang: ''
 ### 分代算法执行过程
 
 ---
-

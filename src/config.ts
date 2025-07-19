@@ -43,42 +43,40 @@ export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
 		LinkPreset.Archive,
-		LinkPreset.About,
-		{
-			name: "GitHub",
-			url: "https://github.com/meowrain", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
-		},
+		LinkPreset.About
 	],
 };
 
 export const profileConfig: ProfileConfig = {
 	avatar: "https://blog.meowrain.cn/api/i/2025/07/18/zn3t6t-1.webp", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "MeowRain_Offical",
+	name: "MeowRain",
 	bio: "A developer who loves to code and learn new things,build code for love❤️ and fun🎉",
 	links: [
 		{
-			name: "Twitter",
-			icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
-			// You will need to install the corresponding icon set if it's not already included
-			// `pnpm add @iconify-json/<icon-set-name>`
-			url: "https://twitter.com",
-		},
-		{
-			name: "Steam",
-			icon: "fa6-brands:steam",
-			url: "https://store.steampowered.com",
-		},
-		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
-			url: "https://github.com/saicaca/fuwari",
+			url: "https://github.com/meowrain",
 		},
+		{
+			name: "我的OpenWebUI站",
+			icon: "fa6-brands:airbnb",
+			url: "https://ai.meowrain.cn",
+		},
+		{
+			name: "服务器状态监控",
+			icon: "fa6-solid:server",
+			url: "https://status.meowrain.cn",
+		},
+		{
+			name: "bilibili",
+			icon: "fa6-brands:bilibili",
+			url: "https://space.bilibili.com/386388600",
+		}
 	],
 };
 
 export const licenseConfig: LicenseConfig = {
-	enable: true,
+	enable: false,
 	name: "CC BY-NC-SA 4.0",
 	url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
 };

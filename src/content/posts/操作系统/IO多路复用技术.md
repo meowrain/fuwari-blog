@@ -11,7 +11,7 @@ lang: ''
 
 # 参考资料
 
-![万字图解| 深入揭秘IO多路复用](https://cloud.tencent.com/developer/article/2383534)
+[万字图解| 深入揭秘IO多路复用](https://cloud.tencent.com/developer/article/2383534)
 
 # 为什么要有IO多路复用技术？
 
